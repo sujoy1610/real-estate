@@ -1,42 +1,78 @@
-import React from 'react'
-import { assets } from '../assets/assets'
+import React from 'react';
+import { motion } from 'framer-motion';
+import { assets } from '../assets/assets';
 
 const About = () => {
-    return (
-        <div className="flex items-center justify-center flex-col container mx-auto p-14 md:px-20 lg:px-32 w-full overflow-hidden" id='About'>
-            <h1 className="text-2xl sm:text-4xl font-bold mb-2">About <span className="underline underline-offset-4 decoration-5 font-light text-orange-500">Our Brand</span> </h1>
-            <p className="text-gray-500 font-semibold">Passionate About Properties, Dedicated to Your Vision</p>
-            <div className='flex flex-col md:flex-row items-center md:items-start md:gap-20'>
-                <img src={assets.brand_img} alt="" className="w-full sm:w-1/2 max-w-lg"/>
-                <div className="flex flex-col items-center md:items-start mt-10 text-orange-400">
-                    <div className="grid grid-cols-2 gap-6 md:gap-10 w-full 2xl:pr-28">
-                        <div>
-                            <p className="text-4xl font-medium text-gray-700">10+</p>
-                            <p>years of Excellence</p>
-                        </div>
+  return (
+    <motion.section
+      id="About"
+      initial={{ opacity: 0, y: 50 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.8 }}
+      viewport={{ once: true }}
+      className="w-full px-6 py-20 md:px-20 lg:px-32 bg-white text-gray-800 dark:bg-gray-900 dark:text-white transition-all duration-300"
+    >
+      <div className="max-w-6xl mx-auto flex flex-col items-center text-center">
+        <h2 className="text-3xl sm:text-4xl font-bold mb-2">
+          About{' '}
+          <span className="underline underline-offset-4 decoration-4 text-orange-500 font-light">
+            Our Brand
+          </span>
+        </h2>
+        <p className="text-gray-500 dark:text-gray-300 font-medium mb-12">
+          Passionate About Properties, Dedicated to Your Vision
+        </p>
 
+        <div className="flex flex-col md:flex-row gap-12 items-center">
+          {/* Image */}
+          <motion.img
+            src={assets.brand_img}
+            alt="Brand"
+            className="w-full max-w-md rounded-xl shadow-xl object-cover"
+            initial={{ opacity: 0, scale: 0.8 }}
+            whileInView={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 0.6, delay: 0.3 }}
+          />
 
-                        <div>
-                            <p className="text-4xl font-medium text-gray-700">12+</p>
-                            <p>Projects Completed</p>
-                        </div>
-
-                        <div>
-                            <p className="text-4xl font-medium text-gray-700">20+</p>
-                            <p>Mn. sq. Ft. Deliverd</p>
-                        </div>
-
-                        <div>
-                            <p className="text-4xl font-medium text-gray-700">25+</p>
-                            <p>Ongoing Projects</p>
-                        </div>  
-                    </div>
-                    <p className="my-10 max-w-lg">Lorem ipsum dolor sit amet consectetur adipisicing elit. Amet repellendus quod dolor distinctio minima, libero fugiat assumenda eum sequi a optio aut voluptates provident tempora aperiam harum quisquam hic exercitationem ea culpa facere? Placeat tempora corrupti impedit quaerat, similique tempore voluptatum. Molestias aut sapiente nemo atque quae cum earum iste.</p>
-                    <button className="bg-blue-600 text-white px-8 py-2 rounded  ">Learn More</button>
-                </div>
+          {/* Stats + Description */}
+          <motion.div
+            className="text-left md:text-start text-orange-500"
+            initial={{ opacity: 0, x: 100 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.6, delay: 0.5 }}
+          >
+            <div className="grid grid-cols-2 gap-6 text-center md:text-left">
+              <div>
+                <p className="text-4xl font-semibold text-gray-800 dark:text-white">10+</p>
+                <p className="text-sm">Years of Excellence</p>
+              </div>
+              <div>
+                <p className="text-4xl font-semibold text-gray-800 dark:text-white">12+</p>
+                <p className="text-sm">Projects Completed</p>
+              </div>
+              <div>
+                <p className="text-4xl font-semibold text-gray-800 dark:text-white">20+</p>
+                <p className="text-sm">Mn. sq. ft. Delivered</p>
+              </div>
+              <div>
+                <p className="text-4xl font-semibold text-gray-800 dark:text-white">25+</p>
+                <p className="text-sm">Ongoing Projects</p>
+              </div>
             </div>
-        </div>
-    )
-}
 
-export default About
+            <p className="mt-10 max-w-xl text-gray-600 dark:text-gray-300 leading-relaxed">
+              We are a team of passionate professionals delivering top-tier real estate projects
+              designed to inspire, transform, and elevate lifestyles.
+            </p>
+
+            <button className="mt-6 bg-blue-600 hover:bg-blue-700 text-white px-8 py-2 rounded transition">
+              Learn More
+            </button>
+          </motion.div>
+        </div>
+      </div>
+    </motion.section>
+  );
+};
+
+export default About;

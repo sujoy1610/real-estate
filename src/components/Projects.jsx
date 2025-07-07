@@ -1,72 +1,81 @@
-import React, { useEffect, useState } from 'react'
-import { assets, projectsData } from '../assets/assets'
+import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
+import { projectsData } from '../assets/assets';
 
 const Projects = () => {
+  const [filterType, setFilterType] = useState('All');
 
-    const [currentIndex, setCurrentIndex] = useState(0);
-    const [cardsToShow, setCardsToShow] = useState(1);
+  const filteredProjects =
+    filterType === 'All'
+      ? projectsData
+      : projectsData.filter((project) => project.type === filterType);
 
-    useEffect(()=>{
-        const updateCardsToShow=()=>{
-            if(window.innerWidth>=1024){
-                setCardsToShow(projectsData.length);
-            }
-            else{
-                setCardsToShow(1)
-            };
-        };
-            updateCardsToShow();
+  const uniqueTypes = ['All', ...new Set(projectsData.map((item) => item.type))];
 
-            window.addEventListener('resize', updateCardsToShow);
-            return()=> window.removeEventListener('resize',updateCardsToShow);
-          
-     })
+  return (
+    <section
+      id="Projects"
+      className="w-full px-6 py-20 bg-gray-50 dark:bg-gray-900 transition-colors duration-300 lg:px-32"
+    >
+      <div className="max-w-7xl mx-auto text-center">
+        <h2 className="text-3xl sm:text-4xl font-bold mb-2">
+          Featured{' '}
+          <span className="underline underline-offset-4 font-light">
+            Properties
+          </span>
+        </h2>
+        <p className="text-gray-500 dark:text-gray-300 mb-12">
+          Explore our latest real estate listings.
+        </p>
 
-    const nextProject = () => {
-        setCurrentIndex((prevIndex) => (prevIndex + 1) % projectsData.length)
-    }
-    const prevProject = () => {
-        setCurrentIndex((prevIndex) => prevIndex ===0 ?  projectsData.length-1 : prevIndex-1)
-    }
-    return (
-        <div className="container mx-auto py-4 pt-10 px-6 md:px-20 lg:px-32 my-20 w-full overflow-hidden" id='Projects'>
-            <h1 className="text-2xl sm:text-4xl font-bold mb-2 text-center">Projects <span className="underline underline-offset-4 decoration-1 font-light text-orange-500">Completed</span></h1>
-            <p className="text-center text-gray-500 mx-auto mb-8 ">crafting spaces, Building Explore our Portfolio</p>                                                                                                      
-                                                        
-            {/* slider button */}
-            <div className="flex justify-end items-center mb-8 ">
-                <button onClick={prevProject}
-                className="p-3 bg-gray-300 rounded mr-2 " aria-label='previous projects'>
-                    <img src={assets.left_arrow} />
-                </button>
-                <button onClick={nextProject} 
-                className="p-3 bg-gray-300 rounded mr-2 " aria-label='Next 
-                projects'>
-                    <img src={assets.right_arrow} />
-                </button>
-            </div>
-
-
-            <div className="overflow-hidden">
-                <div className=" flex gap-5 transition-transform duration-500 ease-in-out" style={{transform:`translateX(-${(currentIndex *100)/cardsToShow}%)`}}>
-                    {projectsData.map((project, index) => (
-                        <div key={index} className="relative flex-shrink-0  w-full sm:w-1/4">
-                            <img src={project.image} alt={project.title} className="w-full h-60 object-cover rounded-lg mb-14" />
-                            <div className="absolute left-0 right-0 bottom-5 flex justify-center">
-                                <div className="inline-block bg-white w-3/4 py-3 px-4 rounded-xl shadow-md">
-                                    <h2 className="text-xl font-semibold text-gray-700">{project.title}</h2>
-                                    <p className="text-gray-500 text-sm">{project.price} <span> | </span> {project.location}</p>
-                                </div>
-                            </div>
-                        </div>
-                    ))}
-                </div>
-            </div>
-
-
-
+        {/* Filter Buttons */}
+        <div className="flex flex-wrap justify-center gap-4 mb-12">
+          {uniqueTypes.map((type, index) => (
+            <button
+              key={index}
+              onClick={() => setFilterType(type)}
+              className={`px-4 py-2 rounded-full border transition ${
+                filterType === type
+                  ? 'bg-blue-600 text-white'
+                  : 'border-gray-300 text-gray-600 dark:text-white hover:bg-blue-100 dark:hover:bg-gray-700'
+              }`}
+            >
+              {type}
+            </button>
+          ))}
         </div>
-    )
-}
 
-export default Projects
+        {/* Project Cards */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-10">
+          {filteredProjects.map((project, index) => (
+            <Link to={`/property/${index}`} key={index} className="block">
+              <div className="bg-white dark:bg-gray-800 shadow-lg rounded-lg overflow-hidden transition hover:shadow-xl">
+                <img
+                  src={project.image}
+                  alt={project.title}
+                  className="w-full h-56 object-cover"
+                />
+                <div className="p-6 text-left">
+                  <h3 className="text-xl font-semibold text-gray-800 dark:text-white">
+                    {project.title}
+                  </h3>
+                  <p className="text-sm text-gray-500 dark:text-gray-300 mb-1">
+                    {project.location}
+                  </p>
+                  <p className="text-sm text-gray-600 dark:text-gray-400 mb-3">
+                    {project.type}
+                  </p>
+                  <p className="text-blue-600 dark:text-blue-400 font-bold">
+                    {project.price}
+                  </p>
+                </div>
+              </div>
+            </Link>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+};
+
+export default Projects;
